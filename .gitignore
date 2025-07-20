@@ -1,0 +1,6 @@
+**NODE_MODULES**
+# Ignore node_modules directory
+node_modules/
+.env
+# Ignore environment variable files
+.env.local

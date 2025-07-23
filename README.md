@@ -5,6 +5,7 @@ A real-time collaborative code editor that enables multiple users to code togeth
 ## 🌟 Features
 
 ### Core Features
+
 - **Real-time Collaboration**: Multiple users can edit code simultaneously with live cursors
 - **File Management**: Create, edit, delete files and folders with a visual file tree
 - **Code Execution**: Run code in 14+ programming languages using Piston API
@@ -13,6 +14,7 @@ A real-time collaborative code editor that enables multiple users to code togeth
 - **User Management**: See who's online and track their activity
 
 ### Advanced Features
+
 - **Auto-save**: Automatic file saving every 2 seconds
 - **Multiple Themes**: Dark/Light mode support
 - **Room Sharing**: Easy room sharing with links and room IDs
@@ -22,6 +24,7 @@ A real-time collaborative code editor that enables multiple users to code togeth
 ## 🛠️ Tech Stack
 
 ### Frontend
+
 - **React 18** + **Vite** - Modern React development
 - **Monaco Editor** - VS Code editor engine
 - **Socket.io Client** - Real-time communication
@@ -31,6 +34,7 @@ A real-time collaborative code editor that enables multiple users to code togeth
 - **Heroicons** - Beautiful SVG icons
 
 ### Backend
+
 - **Node.js** + **Express.js** - Server framework
 - **Socket.io** - Real-time bidirectional communication
 - **MongoDB** + **Mongoose** - Database and ODM
@@ -39,6 +43,7 @@ A real-time collaborative code editor that enables multiple users to code togeth
 - **Piston API** - Code execution engine
 
 ### Development Tools
+
 - **Vite** - Fast development and build tool
 - **Nodemon** - Auto-restart development server
 - **Concurrently** - Run multiple commands
@@ -47,6 +52,7 @@ A real-time collaborative code editor that enables multiple users to code togeth
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - **Node.js 18+** and **npm**
 - **MongoDB** running locally or MongoDB Atlas account
 - **Git** for version control
@@ -54,31 +60,36 @@ A real-time collaborative code editor that enables multiple users to code togeth
 ### Installation
 
 1. **Clone the repository:**
+
 ```bash
 git clone https://github.com/your-username/code-together.git
 cd code-together
 ```
 
 2. **Install all dependencies:**
+
 ```bash
 npm run install-all
 ```
 
 3. **Start MongoDB:**
+
    - **Local MongoDB:** Make sure MongoDB is running on `localhost:27017`
    - **MongoDB Atlas:** Update the connection string in `.env` files
 
 4. **Start the application:**
+
    - **Windows:** Double-click `start.bat` or run:
      ```bash
      npm run dev
      ```
    - **Manual:** Open two terminals:
+
      ```bash
      # Terminal 1: Backend
      cd server && npm run dev
-     
-     # Terminal 2: Frontend  
+
+     # Terminal 2: Frontend
      cd client && npm run dev
      ```
 
@@ -116,29 +127,34 @@ code-together/
 ## 🎯 Usage Guide
 
 ### Creating a Room
+
 1. Visit the homepage
 2. Click "Create New Room"
 3. Enter a room name
 4. Start coding!
 
 ### Joining a Room
+
 1. Get a room link or room ID from someone
 2. Click "Join Room" and enter the room ID
 3. Start collaborating!
 
 ### File Operations
+
 - **Create:** Right-click in file tree → New File/Folder
 - **Rename:** Right-click file → Rename
 - **Delete:** Right-click file → Delete
 - **Select:** Click on any file to open it
 
 ### Code Execution
+
 1. Open the execution panel (Play button in top bar)
 2. Select your programming language
 3. Add any input if needed
 4. Click "Run Code"
 
 ### Real-time Features
+
 - **Live Cursors:** See where other users are typing
 - **Live Chat:** Use the chat panel to communicate
 - **Auto-sync:** All changes are automatically synced
@@ -148,6 +164,7 @@ code-together/
 ### Environment Variables
 
 **Server (.env):**
+
 ```env
 PORT=3000
 NODE_ENV=development
@@ -158,12 +175,14 @@ PISTON_API_URL=https://emkc.org/api/v2/piston
 ```
 
 **Client (.env):**
+
 ```env
 VITE_API_URL=http://localhost:3000/api
 VITE_SOCKET_URL=http://localhost:3000
 ```
 
 ### Supported Languages
+
 JavaScript, TypeScript, Python, Java, C++, C, C#, PHP, Ruby, Go, Rust, Swift, Kotlin, Scala
 
 ## 🧪 Development
@@ -171,20 +190,24 @@ JavaScript, TypeScript, Python, Java, C++, C, C#, PHP, Ruby, Go, Rust, Swift, Ko
 ### Available Scripts
 
 **Root:**
+
 - `npm run dev` - Start both client and server
 - `npm run build` - Build client for production
 - `npm run install-all` - Install all dependencies
 
 **Server:**
+
 - `npm run dev` - Start development server with nodemon
 - `npm start` - Start production server
 
 **Client:**
+
 - `npm run dev` - Start Vite development server
 - `npm run build` - Build for production
 - `npm run preview` - Preview production build
 
 ### Code Quality
+
 - ESLint configuration for both client and server
 - Prettier for code formatting
 - Husky for git hooks (optional)
@@ -236,6 +259,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Support
 
 If you encounter any issues or have questions:
+
 1. Check the [Issues](https://github.com/your-username/code-together/issues) page
 2. Create a new issue with detailed information
 3. Join our community discussions
@@ -244,17 +268,19 @@ If you encounter any issues or have questions:
 
 **Happy Collaborative Coding! 🎉**
 npm install
-```
+
+````
 
 3. Install client dependencies:
 ```bash
 cd ../client
 npm install
-```
+````
 
 4. Set up environment variables:
 
 **Server (.env):**
+
 ```env
 PORT=3000
 MONGODB_URI=mongodb://localhost:27017/codetogether
@@ -264,6 +290,7 @@ NODE_ENV=development
 ```
 
 **Client (.env):**
+
 ```env
 VITE_BACKEND_URL=http://localhost:3000
 VITE_SOCKET_URL=ws://localhost:3000
@@ -272,12 +299,14 @@ VITE_SOCKET_URL=ws://localhost:3000
 5. Start the development servers:
 
 **Terminal 1 (Server):**
+
 ```bash
 cd server
 npm run dev
 ```
 
 **Terminal 2 (Client):**
+
 ```bash
 cd client
 npm run dev

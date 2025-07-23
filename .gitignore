@@ -4,3 +4,4 @@ node_modules/
 .env
 # Ignore environment variable files
 .env.local
+.env.example

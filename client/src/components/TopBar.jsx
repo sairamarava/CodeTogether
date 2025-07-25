@@ -1,44 +1,50 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuthStore } from '../stores/authStore';
-import { 
-  ChatBubbleLeftIcon, 
-  PlayIcon, 
-  SunIcon, 
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../stores/authStore";
+import {
+  ChatBubbleLeftIcon,
+  PlayIcon,
+  SunIcon,
   MoonIcon,
   Cog6ToothIcon,
   ArrowLeftOnRectangleIcon,
   DocumentDuplicateIcon,
-  ShareIcon
-} from '@heroicons/react/24/outline';
-import { toast } from 'react-hot-toast';
+  ShareIcon,
+} from "@heroicons/react/24/outline";
+import { toast } from "react-hot-toast";
 
-const TopBar = ({ roomId, onToggleChat, onToggleExecution, onThemeChange, theme }) => {
+const TopBar = ({
+  roomId,
+  onToggleChat,
+  onToggleExecution,
+  onThemeChange,
+  theme,
+}) => {
   const navigate = useNavigate();
   const { user, logout } = useAuthStore();
   const [showShareModal, setShowShareModal] = useState(false);
 
   const handleLogout = () => {
     logout();
-    navigate('/');
+    navigate("/");
   };
 
   const copyRoomId = () => {
     navigator.clipboard.writeText(roomId);
-    toast.success('Room ID copied to clipboard!');
+    toast.success("Room ID copied to clipboard!");
   };
 
   const copyRoomLink = () => {
     const roomLink = `${window.location.origin}/room/${roomId}`;
     navigator.clipboard.writeText(roomLink);
-    toast.success('Room link copied to clipboard!');
+    toast.success("Room link copied to clipboard!");
   };
 
   const ShareModal = () => (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-gray-800 rounded-lg p-6 w-96 max-w-90vw">
         <h3 className="text-lg font-semibold mb-4">Share Room</h3>
-        
+
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium mb-2">Room ID</label>
@@ -128,11 +134,13 @@ const TopBar = ({ roomId, onToggleChat, onToggleExecution, onThemeChange, theme 
           </button>
 
           <button
-            onClick={() => onThemeChange(theme === 'vs-dark' ? 'light' : 'vs-dark')}
+            onClick={() =>
+              onThemeChange(theme === "vs-dark" ? "light" : "vs-dark")
+            }
             className="p-2 hover:bg-gray-700 rounded transition-colors"
             title="Toggle Theme"
           >
-            {theme === 'vs-dark' ? (
+            {theme === "vs-dark" ? (
               <SunIcon className="w-5 h-5" />
             ) : (
               <MoonIcon className="w-5 h-5" />

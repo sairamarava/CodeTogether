@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { useAuthStore } from '../stores/authStore';
-import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
-import { toast } from 'react-hot-toast';
+import React, { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { useAuthStore } from "../stores/authStore";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
+import { toast } from "react-hot-toast";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -10,29 +10,29 @@ const LoginPage = () => {
   const [isRegisterMode, setIsRegisterMode] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
 
   useEffect(() => {
     if (user) {
-      navigate('/');
+      navigate("/");
     }
   }, [user, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (isRegisterMode) {
       if (formData.password !== formData.confirmPassword) {
-        toast.error('Passwords do not match');
+        toast.error("Passwords do not match");
         return;
       }
-      
+
       if (formData.password.length < 6) {
-        toast.error('Password must be at least 6 characters');
+        toast.error("Password must be at least 6 characters");
         return;
       }
 
@@ -40,23 +40,23 @@ const LoginPage = () => {
         await register({
           username: formData.username,
           email: formData.email,
-          password: formData.password
+          password: formData.password,
         });
-        toast.success('Account created successfully!');
-        navigate('/');
+        toast.success("Account created successfully!");
+        navigate("/");
       } catch (error) {
-        toast.error(error.message || 'Registration failed');
+        toast.error(error.message || "Registration failed");
       }
     } else {
       try {
         await login({
           email: formData.email,
-          password: formData.password
+          password: formData.password,
         });
-        toast.success('Welcome back!');
-        navigate('/');
+        toast.success("Welcome back!");
+        navigate("/");
       } catch (error) {
-        toast.error(error.message || 'Login failed');
+        toast.error(error.message || "Login failed");
       }
     }
   };
@@ -64,7 +64,7 @@ const LoginPage = () => {
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -73,25 +73,20 @@ const LoginPage = () => {
       <div className="max-w-md w-full">
         {/* Logo */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">
-            Code-Together
-          </h1>
-          <p className="text-gray-300">
-            Collaborative coding in real-time
-          </p>
+          <h1 className="text-4xl font-bold text-white mb-2">Code-Together</h1>
+          <p className="text-gray-300">Collaborative coding in real-time</p>
         </div>
 
         {/* Form */}
         <div className="bg-gray-800 rounded-lg shadow-xl p-6 border border-gray-700">
           <div className="mb-6">
             <h2 className="text-2xl font-semibold text-white text-center">
-              {isRegisterMode ? 'Create Account' : 'Welcome Back'}
+              {isRegisterMode ? "Create Account" : "Welcome Back"}
             </h2>
             <p className="text-gray-400 text-center mt-2">
-              {isRegisterMode 
-                ? 'Join the collaborative coding community'
-                : 'Sign in to your account'
-              }
+              {isRegisterMode
+                ? "Join the collaborative coding community"
+                : "Sign in to your account"}
             </p>
           </div>
 
@@ -134,7 +129,7 @@ const LoginPage = () => {
               </label>
               <div className="relative">
                 <input
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
@@ -181,10 +176,12 @@ const LoginPage = () => {
               {isLoading ? (
                 <div className="flex items-center justify-center">
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-                  {isRegisterMode ? 'Creating Account...' : 'Signing In...'}
+                  {isRegisterMode ? "Creating Account..." : "Signing In..."}
                 </div>
+              ) : isRegisterMode ? (
+                "Create Account"
               ) : (
-                isRegisterMode ? 'Create Account' : 'Sign In'
+                "Sign In"
               )}
             </button>
           </form>
@@ -195,24 +192,25 @@ const LoginPage = () => {
               onClick={() => {
                 setIsRegisterMode(!isRegisterMode);
                 setFormData({
-                  username: '',
-                  email: '',
-                  password: '',
-                  confirmPassword: ''
+                  username: "",
+                  email: "",
+                  password: "",
+                  confirmPassword: "",
                 });
               }}
               className="text-blue-400 hover:text-blue-300 text-sm"
             >
-              {isRegisterMode 
-                ? 'Already have an account? Sign in'
-                : "Don't have an account? Sign up"
-              }
+              {isRegisterMode
+                ? "Already have an account? Sign in"
+                : "Don't have an account? Sign up"}
             </button>
           </div>
 
           {/* Demo Credentials */}
           <div className="mt-6 p-3 bg-gray-700 rounded border border-gray-600">
-            <p className="text-xs text-gray-300 text-center mb-2">Demo Credentials:</p>
+            <p className="text-xs text-gray-300 text-center mb-2">
+              Demo Credentials:
+            </p>
             <div className="text-xs text-gray-400 text-center space-y-1">
               <div>Email: demo@codetogether.com</div>
               <div>Password: demo123</div>

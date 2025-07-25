@@ -1,50 +1,57 @@
-import React, { useState, useEffect } from 'react';
-import { useEditorStore } from '../stores/editorStore';
-import socketService from '../utils/socket';
-import api from '../utils/api';
-import { 
-  FolderIcon, 
-  FolderOpenIcon, 
+import React, { useState, useEffect } from "react";
+import { useEditorStore } from "../stores/editorStore";
+import socketService from "../utils/socket";
+import api from "../utils/api";
+import {
+  FolderIcon,
+  FolderOpenIcon,
   DocumentIcon,
   PlusIcon,
   TrashIcon,
-  PencilIcon
-} from '@heroicons/react/24/outline';
-import { toast } from 'react-hot-toast';
+  PencilIcon,
+} from "@heroicons/react/24/outline";
+import { toast } from "react-hot-toast";
 
 const FileTree = ({ roomId }) => {
-  const { files, currentFile, setCurrentFile, setFiles, setContent, setLanguage } = useEditorStore();
+  const {
+    files,
+    currentFile,
+    setCurrentFile,
+    setFiles,
+    setContent,
+    setLanguage,
+  } = useEditorStore();
   const [expandedFolders, setExpandedFolders] = useState(new Set());
   const [contextMenu, setContextMenu] = useState(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const [createType, setCreateType] = useState('file'); // 'file' or 'folder'
-  const [createName, setCreateName] = useState('');
+  const [createType, setCreateType] = useState("file"); // 'file' or 'folder'
+  const [createName, setCreateName] = useState("");
   const [editingFile, setEditingFile] = useState(null);
-  const [editName, setEditName] = useState('');
+  const [editName, setEditName] = useState("");
 
   useEffect(() => {
     loadFiles();
-    
+
     // Socket listeners for file operations
-    socketService.on('file-created', (file) => {
+    socketService.on("file-created", (file) => {
       loadFiles();
       toast.success(`${file.type} "${file.name}" created`);
     });
 
-    socketService.on('file-deleted', (fileId) => {
+    socketService.on("file-deleted", (fileId) => {
       loadFiles();
-      toast.success('File deleted');
+      toast.success("File deleted");
     });
 
-    socketService.on('file-renamed', (file) => {
+    socketService.on("file-renamed", (file) => {
       loadFiles();
       toast.success(`Renamed to "${file.name}"`);
     });
 
     return () => {
-      socketService.off('file-created');
-      socketService.off('file-deleted');
-      socketService.off('file-renamed');
+      socketService.off("file-created");
+      socketService.off("file-deleted");
+      socketService.off("file-renamed");
     };
   }, [roomId]);
 
@@ -53,12 +60,12 @@ const FileTree = ({ roomId }) => {
       const response = await api.get(`/files/${roomId}`);
       setFiles(response.data);
     } catch (error) {
-      toast.error('Failed to load files');
+      toast.error("Failed to load files");
     }
   };
 
   const handleFileSelect = async (file) => {
-    if (file.type === 'folder') {
+    if (file.type === "folder") {
       toggleFolder(file.id);
       return;
     }
@@ -68,15 +75,15 @@ const FileTree = ({ roomId }) => {
       setCurrentFile(file);
       setContent(response.data.content);
       setLanguage(getLanguageFromExtension(file.name));
-      
+
       // Emit to other users
-      socketService.emit('file-selected', {
+      socketService.emit("file-selected", {
         roomId,
         file,
-        content: response.data.content
+        content: response.data.content,
       });
     } catch (error) {
-      toast.error('Failed to load file content');
+      toast.error("Failed to load file content");
     }
   };
 
@@ -95,7 +102,7 @@ const FileTree = ({ roomId }) => {
     setContextMenu({
       x: e.clientX,
       y: e.clientY,
-      file
+      file,
     });
   };
 
@@ -110,18 +117,19 @@ const FileTree = ({ roomId }) => {
       const data = {
         name: createName,
         type: createType,
-        parentId: contextMenu?.file?.type === 'folder' ? contextMenu.file.id : null
+        parentId:
+          contextMenu?.file?.type === "folder" ? contextMenu.file.id : null,
       };
 
       const response = await api.post(`/files/${roomId}`, data);
-      
-      socketService.emit('file-create', {
+
+      socketService.emit("file-create", {
         roomId,
-        file: response.data
+        file: response.data,
       });
 
       setShowCreateModal(false);
-      setCreateName('');
+      setCreateName("");
       closeContextMenu();
     } catch (error) {
       toast.error(`Failed to create ${createType}`);
@@ -133,15 +141,15 @@ const FileTree = ({ roomId }) => {
 
     try {
       await api.delete(`/files/${roomId}/${file.id}`);
-      
-      socketService.emit('file-delete', {
+
+      socketService.emit("file-delete", {
         roomId,
-        fileId: file.id
+        fileId: file.id,
       });
 
       closeContextMenu();
     } catch (error) {
-      toast.error('Failed to delete file');
+      toast.error("Failed to delete file");
     }
   };
 
@@ -159,47 +167,61 @@ const FileTree = ({ roomId }) => {
 
     try {
       await api.put(`/files/${roomId}/${file.id}`, { name: editName });
-      
-      socketService.emit('file-rename', {
+
+      socketService.emit("file-rename", {
         roomId,
         fileId: file.id,
-        newName: editName
+        newName: editName,
       });
 
       setEditingFile(null);
     } catch (error) {
-      toast.error('Failed to rename file');
+      toast.error("Failed to rename file");
     }
   };
 
   const getLanguageFromExtension = (filename) => {
-    const ext = filename.split('.').pop()?.toLowerCase();
+    const ext = filename.split(".").pop()?.toLowerCase();
     const languageMap = {
-      js: 'javascript', jsx: 'javascript', ts: 'typescript', tsx: 'typescript',
-      py: 'python', java: 'java', cpp: 'cpp', c: 'c', cs: 'csharp',
-      php: 'php', rb: 'ruby', go: 'go', rs: 'rust', swift: 'swift',
-      html: 'html', css: 'css', json: 'json', md: 'markdown'
+      js: "javascript",
+      jsx: "javascript",
+      ts: "typescript",
+      tsx: "typescript",
+      py: "python",
+      java: "java",
+      cpp: "cpp",
+      c: "c",
+      cs: "csharp",
+      php: "php",
+      rb: "ruby",
+      go: "go",
+      rs: "rust",
+      swift: "swift",
+      html: "html",
+      css: "css",
+      json: "json",
+      md: "markdown",
     };
-    return languageMap[ext] || 'plaintext';
+    return languageMap[ext] || "plaintext";
   };
 
   const renderFileTree = (items, level = 0) => {
     return items
       .sort((a, b) => {
-        if (a.type !== b.type) return a.type === 'folder' ? -1 : 1;
+        if (a.type !== b.type) return a.type === "folder" ? -1 : 1;
         return a.name.localeCompare(b.name);
       })
-      .map(file => (
+      .map((file) => (
         <div key={file.id}>
           <div
             className={`flex items-center px-2 py-1 hover:bg-gray-700 cursor-pointer text-sm ${
-              currentFile?.id === file.id ? 'bg-blue-600' : ''
+              currentFile?.id === file.id ? "bg-blue-600" : ""
             }`}
             style={{ paddingLeft: `${level * 16 + 8}px` }}
             onClick={() => handleFileSelect(file)}
             onContextMenu={(e) => handleContextMenu(e, file)}
           >
-            {file.type === 'folder' ? (
+            {file.type === "folder" ? (
               expandedFolders.has(file.id) ? (
                 <FolderOpenIcon className="w-4 h-4 mr-2 text-blue-400" />
               ) : (
@@ -208,14 +230,14 @@ const FileTree = ({ roomId }) => {
             ) : (
               <DocumentIcon className="w-4 h-4 mr-2 text-gray-400" />
             )}
-            
+
             {editingFile === file.id ? (
               <input
                 type="text"
                 value={editName}
                 onChange={(e) => setEditName(e.target.value)}
                 onBlur={() => finishRename(file)}
-                onKeyPress={(e) => e.key === 'Enter' && finishRename(file)}
+                onKeyPress={(e) => e.key === "Enter" && finishRename(file)}
                 className="bg-gray-600 border border-gray-500 rounded px-1 py-0.5 text-sm flex-1"
                 autoFocus
               />
@@ -223,10 +245,11 @@ const FileTree = ({ roomId }) => {
               <span className="flex-1 truncate">{file.name}</span>
             )}
           </div>
-          
-          {file.type === 'folder' && expandedFolders.has(file.id) && file.children && (
-            renderFileTree(file.children, level + 1)
-          )}
+
+          {file.type === "folder" &&
+            expandedFolders.has(file.id) &&
+            file.children &&
+            renderFileTree(file.children, level + 1)}
         </div>
       ));
   };
@@ -235,7 +258,7 @@ const FileTree = ({ roomId }) => {
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-gray-800 rounded-lg p-6 w-80">
         <h3 className="text-lg font-semibold mb-4">Create {createType}</h3>
-        
+
         <input
           type="text"
           value={createName}
@@ -243,7 +266,7 @@ const FileTree = ({ roomId }) => {
           placeholder={`${createType} name`}
           className="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 mb-4"
           autoFocus
-          onKeyPress={(e) => e.key === 'Enter' && createFileOrFolder()}
+          onKeyPress={(e) => e.key === "Enter" && createFileOrFolder()}
         />
 
         <div className="flex justify-end space-x-2">
@@ -272,7 +295,7 @@ const FileTree = ({ roomId }) => {
         <div className="flex space-x-1">
           <button
             onClick={() => {
-              setCreateType('file');
+              setCreateType("file");
               setShowCreateModal(true);
             }}
             className="p-1 hover:bg-gray-700 rounded"
@@ -282,7 +305,7 @@ const FileTree = ({ roomId }) => {
           </button>
           <button
             onClick={() => {
-              setCreateType('folder');
+              setCreateType("folder");
               setShowCreateModal(true);
             }}
             className="p-1 hover:bg-gray-700 rounded"
@@ -315,7 +338,7 @@ const FileTree = ({ roomId }) => {
         >
           <button
             onClick={() => {
-              setCreateType('file');
+              setCreateType("file");
               setShowCreateModal(true);
             }}
             className="w-full px-3 py-1 text-left hover:bg-gray-700 text-sm flex items-center"
@@ -325,7 +348,7 @@ const FileTree = ({ roomId }) => {
           </button>
           <button
             onClick={() => {
-              setCreateType('folder');
+              setCreateType("folder");
               setShowCreateModal(true);
             }}
             className="w-full px-3 py-1 text-left hover:bg-gray-700 text-sm flex items-center"
@@ -353,13 +376,10 @@ const FileTree = ({ roomId }) => {
 
       {/* Modals */}
       {showCreateModal && <CreateModal />}
-      
+
       {/* Click outside to close context menu */}
       {contextMenu && (
-        <div
-          className="fixed inset-0 z-40"
-          onClick={closeContextMenu}
-        />
+        <div className="fixed inset-0 z-40" onClick={closeContextMenu} />
       )}
     </div>
   );

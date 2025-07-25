@@ -6,24 +6,25 @@
   * {
     box-sizing: border-box;
   }
-  
+
   body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-      sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+      "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+      "Helvetica Neue", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-color: #111827;
     color: #f3f4f6;
   }
-  
+
   html {
     scroll-behavior: smooth;
   }
 
   code {
-    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+    font-family: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", "source-code-pro",
+      monospace;
   }
 }
 
@@ -34,8 +35,14 @@
 }
 
 @keyframes blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0; }
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
 }
 
 /* Custom scrollbar for dark theme */
@@ -128,7 +135,7 @@
 
 /* Monaco Editor customization */
 .monaco-editor {
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', monospace !important;
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", monospace !important;
   font-size: 14px !important;
   line-height: 1.5 !important;
 }
@@ -141,7 +148,7 @@
 }
 
 .collaboration-cursor::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -166,8 +173,14 @@
 }
 
 @keyframes cursor-blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0.3; }
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0.3;
+  }
 }
 
 /* Responsive utilities */

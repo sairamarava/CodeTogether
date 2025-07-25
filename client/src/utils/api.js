@@ -1,19 +1,20 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:3000/api";
 
 const api = axios.create({
   baseURL: API_BASE_URL,
   timeout: 30000,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
 // Request interceptor to add auth token
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('auth-storage');
+    const token = localStorage.getItem("auth-storage");
     if (token) {
       try {
         const authData = JSON.parse(token);
@@ -21,7 +22,7 @@ api.interceptors.request.use(
           config.headers.Authorization = `Bearer ${authData.state.token}`;
         }
       } catch (error) {
-        console.error('Error parsing auth token:', error);
+        console.error("Error parsing auth token:", error);
       }
     }
     return config;
@@ -45,15 +46,15 @@ api.interceptors.response.use(
 
       try {
         // Try to refresh token
-        const response = await api.post('/auth/refresh');
+        const response = await api.post("/auth/refresh");
         const { token } = response.data;
 
         // Update token in localStorage
-        const authStorage = localStorage.getItem('auth-storage');
+        const authStorage = localStorage.getItem("auth-storage");
         if (authStorage) {
           const authData = JSON.parse(authStorage);
           authData.state.token = token;
-          localStorage.setItem('auth-storage', JSON.stringify(authData));
+          localStorage.setItem("auth-storage", JSON.stringify(authData));
         }
 
         // Retry original request with new token
@@ -61,15 +62,15 @@ api.interceptors.response.use(
         return api(originalRequest);
       } catch (refreshError) {
         // Refresh failed, clear auth data
-        localStorage.removeItem('auth-storage');
-        window.location.href = '/login';
+        localStorage.removeItem("auth-storage");
+        window.location.href = "/login";
         return Promise.reject(refreshError);
       }
     }
 
     // Handle other errors
     if (error.response?.status >= 500) {
-      console.error('Server error:', error.response.data);
+      console.error("Server error:", error.response.data);
     }
 
     return Promise.reject(error);

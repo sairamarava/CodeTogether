@@ -1,15 +1,15 @@
-import React from 'react';
-import { UserIcon } from '@heroicons/react/24/outline';
+import React from "react";
+import { UserIcon } from "@heroicons/react/24/outline";
 
 const UsersList = ({ users, currentUser }) => {
   const getStatusColor = (user) => {
-    if (user.id === currentUser.id) return 'bg-green-500';
-    return user.isActive ? 'bg-green-500' : 'bg-gray-500';
+    if (user.id === currentUser.id) return "bg-green-500";
+    return user.isActive ? "bg-green-500" : "bg-gray-500";
   };
 
   const getStatusText = (user) => {
-    if (user.id === currentUser.id) return 'You';
-    return user.isActive ? 'Online' : 'Away';
+    if (user.id === currentUser.id) return "You";
+    return user.isActive ? "Online" : "Away";
   };
 
   return (
@@ -19,7 +19,7 @@ const UsersList = ({ users, currentUser }) => {
           <UserIcon className="w-4 h-4 mr-2" />
           Users ({users.length})
         </h3>
-        
+
         <div className="space-y-2">
           {users.map((user) => (
             <div
@@ -32,7 +32,11 @@ const UsersList = ({ users, currentUser }) => {
                   {user.username[0].toUpperCase()}
                 </div>
                 {/* Status indicator */}
-                <div className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-gray-800 ${getStatusColor(user)}`} />
+                <div
+                  className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-gray-800 ${getStatusColor(
+                    user
+                  )}`}
+                />
               </div>
 
               {/* User info */}

@@ -1,43 +1,45 @@
-import React, { useState, useEffect } from 'react';
-import { useExecutionStore } from '../stores/executionStore';
-import { 
-  PlayIcon, 
-  StopIcon, 
+import React, { useState, useEffect } from "react";
+import { useExecutionStore } from "../stores/executionStore";
+import {
+  PlayIcon,
+  StopIcon,
   ClockIcon,
   ExclamationTriangleIcon,
-  CheckCircleIcon
-} from '@heroicons/react/24/outline';
-import { toast } from 'react-hot-toast';
+  CheckCircleIcon,
+} from "@heroicons/react/24/outline";
+import { toast } from "react-hot-toast";
 
 const CodeExecution = ({ code, language, filename }) => {
-  const { 
-    isExecuting, 
-    output, 
-    error, 
+  const {
+    isExecuting,
+    output,
+    error,
     executionTime,
     executeCode,
-    clearOutput 
+    clearOutput,
   } = useExecutionStore();
-  
-  const [selectedLanguage, setSelectedLanguage] = useState(language || 'javascript');
-  const [input, setInput] = useState('');
+
+  const [selectedLanguage, setSelectedLanguage] = useState(
+    language || "javascript"
+  );
+  const [input, setInput] = useState("");
 
   // Language mappings for Piston API
   const languageVersions = {
-    javascript: { language: 'javascript', version: '18.15.0' },
-    typescript: { language: 'typescript', version: '5.0.3' },
-    python: { language: 'python', version: '3.10.0' },
-    java: { language: 'java', version: '15.0.2' },
-    cpp: { language: 'cpp', version: '10.2.0' },
-    c: { language: 'c', version: '10.2.0' },
-    csharp: { language: 'csharp', version: '6.12.0' },
-    php: { language: 'php', version: '8.2.3' },
-    ruby: { language: 'ruby', version: '3.0.1' },
-    go: { language: 'go', version: '1.16.2' },
-    rust: { language: 'rust', version: '1.68.2' },
-    swift: { language: 'swift', version: '5.3.3' },
-    kotlin: { language: 'kotlin', version: '1.8.20' },
-    scala: { language: 'scala', version: '3.2.2' }
+    javascript: { language: "javascript", version: "18.15.0" },
+    typescript: { language: "typescript", version: "5.0.3" },
+    python: { language: "python", version: "3.10.0" },
+    java: { language: "java", version: "15.0.2" },
+    cpp: { language: "cpp", version: "10.2.0" },
+    c: { language: "c", version: "10.2.0" },
+    csharp: { language: "csharp", version: "6.12.0" },
+    php: { language: "php", version: "8.2.3" },
+    ruby: { language: "ruby", version: "3.0.1" },
+    go: { language: "go", version: "1.16.2" },
+    rust: { language: "rust", version: "1.68.2" },
+    swift: { language: "swift", version: "5.3.3" },
+    kotlin: { language: "kotlin", version: "1.8.20" },
+    scala: { language: "scala", version: "3.2.2" },
   };
 
   useEffect(() => {
@@ -48,13 +50,13 @@ const CodeExecution = ({ code, language, filename }) => {
 
   const handleExecute = async () => {
     if (!code || !code.trim()) {
-      toast.error('No code to execute');
+      toast.error("No code to execute");
       return;
     }
 
     const languageConfig = languageVersions[selectedLanguage];
     if (!languageConfig) {
-      toast.error('Unsupported language');
+      toast.error("Unsupported language");
       return;
     }
 
@@ -62,60 +64,62 @@ const CodeExecution = ({ code, language, filename }) => {
       await executeCode({
         language: languageConfig.language,
         version: languageConfig.version,
-        files: [{
-          name: filename || `main.${getFileExtension(selectedLanguage)}`,
-          content: code
-        }],
+        files: [
+          {
+            name: filename || `main.${getFileExtension(selectedLanguage)}`,
+            content: code,
+          },
+        ],
         stdin: input,
         args: [],
         compile_timeout: 10000,
         run_timeout: 3000,
         compile_memory_limit: -1,
-        run_memory_limit: -1
+        run_memory_limit: -1,
       });
     } catch (error) {
-      toast.error('Execution failed');
+      toast.error("Execution failed");
     }
   };
 
   const getFileExtension = (lang) => {
     const extensions = {
-      javascript: 'js',
-      typescript: 'ts',
-      python: 'py',
-      java: 'java',
-      cpp: 'cpp',
-      c: 'c',
-      csharp: 'cs',
-      php: 'php',
-      ruby: 'rb',
-      go: 'go',
-      rust: 'rs',
-      swift: 'swift',
-      kotlin: 'kt',
-      scala: 'scala'
+      javascript: "js",
+      typescript: "ts",
+      python: "py",
+      java: "java",
+      cpp: "cpp",
+      c: "c",
+      csharp: "cs",
+      php: "php",
+      ruby: "rb",
+      go: "go",
+      rust: "rs",
+      swift: "swift",
+      kotlin: "kt",
+      scala: "scala",
     };
-    return extensions[lang] || 'txt';
+    return extensions[lang] || "txt";
   };
 
   const getLanguageIcon = (lang) => {
     const icons = {
-      javascript: '🟨',
-      typescript: '🔷',
-      python: '🐍',
-      java: '☕',
-      cpp: '⚡',
-      c: '⚙️',
-      csharp: '🔵',
-      php: '🐘',
-      ruby: '💎',
-      go: '🐹',
-      rust: '🦀',
-      swift: '🍃',
-      kotlin: '🎯',
-      scala: '🔺'
+      javascript: "🟨",
+      typescript: "🔷",
+      python: "🐍",
+      java: "☕",
+      cpp: "⚡",
+      c: "⚙️",
+      csharp: "🔵",
+      php: "🐘",
+      ruby: "💎",
+      go: "🐹",
+      rust: "🦀",
+      swift: "🍃",
+      kotlin: "🎯",
+      scala: "🔺",
     };
-    return icons[lang] || '📄';
+    return icons[lang] || "📄";
   };
 
   return (
@@ -140,9 +144,10 @@ const CodeExecution = ({ code, language, filename }) => {
             onChange={(e) => setSelectedLanguage(e.target.value)}
             className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm"
           >
-            {Object.keys(languageVersions).map(lang => (
+            {Object.keys(languageVersions).map((lang) => (
               <option key={lang} value={lang}>
-                {getLanguageIcon(lang)} {lang.charAt(0).toUpperCase() + lang.slice(1)}
+                {getLanguageIcon(lang)}{" "}
+                {lang.charAt(0).toUpperCase() + lang.slice(1)}
               </option>
             ))}
           </select>
@@ -150,7 +155,9 @@ const CodeExecution = ({ code, language, filename }) => {
 
         {/* Input */}
         <div className="mb-3">
-          <label className="block text-xs text-gray-400 mb-1">Standard Input</label>
+          <label className="block text-xs text-gray-400 mb-1">
+            Standard Input
+          </label>
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -200,7 +207,9 @@ const CodeExecution = ({ code, language, filename }) => {
               <div className="mb-3">
                 <div className="flex items-center space-x-2 mb-2">
                   <ExclamationTriangleIcon className="w-4 h-4 text-red-400" />
-                  <span className="text-sm font-medium text-red-400">Error</span>
+                  <span className="text-sm font-medium text-red-400">
+                    Error
+                  </span>
                 </div>
                 <pre className="bg-red-900 bg-opacity-20 border border-red-700 rounded p-3 text-sm text-red-300 overflow-auto">
                   {error}
@@ -212,7 +221,9 @@ const CodeExecution = ({ code, language, filename }) => {
             {output && (
               <div>
                 <div className="flex items-center space-x-2 mb-2">
-                  <span className="text-sm font-medium text-green-400">Output</span>
+                  <span className="text-sm font-medium text-green-400">
+                    Output
+                  </span>
                 </div>
                 <pre className="bg-gray-900 border border-gray-600 rounded p-3 text-sm text-gray-300 overflow-auto whitespace-pre-wrap">
                   {output}
